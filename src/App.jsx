@@ -7,6 +7,7 @@ import { AgregarJoya } from './pages/admin/AgregarJoya';
 import { Home } from './pages/public/Home';
 import { EditarJoya } from './pages/admin/EditarJoya';
 import { Notificaciones } from './pages/admin/Notificaciones';
+import { TestimoniosAdmin } from './pages/admin/TestimoniosAdmin';
 
 // --- COMPONENTES TEMPORALES PARA PRUEBAS ---
 // Simula la pantalla de inicio (Catálogo público)
@@ -52,6 +53,7 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route path="/admin/testimonios" element={<TestimoniosAdmin />} />
           <Route path="/admin/notificaciones" element={<Notificaciones />} />
           <Route path="/admin/editar/:id" element={<EditarJoya />} />
           <Route 

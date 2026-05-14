@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../config/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import './editJoya.css'; // Asegúrate de enlazar el CSS correcto
 
 export const EditarJoya = () => {
-  const { id } = useParams(); // Obtenemos el ID de la URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -20,7 +21,6 @@ export const EditarJoya = () => {
     imagesUrls: []
   });
 
-  // 1. Cargar los datos actuales de la pieza al entrar
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
@@ -53,8 +53,6 @@ export const EditarJoya = () => {
 
     try {
       const joyaRef = doc(db, "joyas", id);
-      
-      // Actualizamos solo los campos de texto y metadatos
       await updateDoc(joyaRef, {
         ...joya,
         precio: parseFloat(joya.precio),
@@ -71,116 +69,111 @@ export const EditarJoya = () => {
     }
   };
 
+  // Pantalla de Carga
   if (fetching) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 animate-pulse">Cargando información de la pieza...</p>
+      <div className="dashboard-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p className="admin-loader">Leyendo archivos de la bóveda...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white p-8">
-      <div className="max-w-2xl mx-auto border border-gray-100 p-10 shadow-sm">
-        <h2 className="text-2xl font-light text-gray-800 mb-10 border-b pb-6 tracking-widest uppercase">
-          Editar Detalles de la Pieza
-        </h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
+    <div className="dashboard-wrapper">
+      
+      {/* NAVBAR ADMIN */}
+      <nav className="admin-nav">
+        <div className="admin-brand">
+          <h1 className="admin-logo">Perla Negra</h1>
+          <p className="admin-subtitle">Edición de Catálogo</p>
+        </div>
+        <div className="admin-actions">
+          <button onClick={() => navigate('/admin/dashboard')} className="btn-store">Volver a Bóveda</button>
+        </div>
+      </nav>
+
+      <main className="admin-main">
+        <div className="admin-form-container fade-in-image">
+          <h2 className="admin-form-title">Modificar Detalles de Pieza</h2>
           
-          {/* Nombre */}
-          <div>
-            <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-3">Nombre del diseño</label>
-            <input 
-              type="text" name="nombre" value={joya.nombre} required
-              className="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-gray-800 transition-colors bg-transparent"
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Vista previa de imágenes actuales */}
-          <div>
-            <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-4">Galería en vitrina</label>
-            <div className="flex gap-3 overflow-x-auto pb-4">
-              {joya.imagesUrls && joya.imagesUrls.map((url, i) => (
-                <div key={i} className="relative group min-w-[100px]">
-                  <img 
-                    src={url} 
-                    alt={`Ángulo ${i+1}`} 
-                    className="w-24 h-24 object-cover border border-gray-100 grayscale hover:grayscale-0 transition-all" 
-                  />
-                  <span className="absolute bottom-1 right-1 bg-white/80 text-[8px] px-1 uppercase tracking-tighter">Vista {i+1}</span>
-                </div>
-              ))}
-            </div>
-            <p className="text-[9px] text-gray-300 mt-2 italic uppercase">Para cambiar las fotos, es recomendable crear una nueva publicación.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {/* Categoría */}
-            <div>
-              <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-3">Colección</label>
-              <select 
-                name="categoria" value={joya.categoria}
-                className="w-full border-b border-gray-200 py-2 bg-transparent focus:outline-none"
-                onChange={handleChange}
-              >
-                <option value="Anillos">Anillos</option>
-                <option value="Cadenas">Cadenas</option>
-                <option value="Aretes">Aretes</option>
-                <option value="Relojes">Relojes</option>
-                <option value="Pulseras">Pulseras</option>
-              </select>
-            </div>
-            {/* Precio */}
-            <div>
-              <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-3">Precio de Referencia ($)</label>
+          <form onSubmit={handleSubmit} className="admin-form">
+            
+            {/* Nombre */}
+            <div className="form-group">
+              <label className="form-label">Nombre del Diseño</label>
               <input 
-                type="number" name="precio" value={joya.precio} step="0.01" required
-                className="w-full border-b border-gray-200 py-2 focus:outline-none"
-                onChange={handleChange}
+                type="text" name="nombre" value={joya.nombre} required onChange={handleChange}
+                className="form-input" 
               />
             </div>
-          </div>
 
-          {/* Material */}
-          <div>
-            <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-3">Materiales utilizados</label>
-            <input 
-              type="text" name="material" value={joya.material} required
-              className="w-full border-b border-gray-200 py-2 focus:outline-none"
-              onChange={handleChange}
-            />
-          </div>
+            {/* Vista Previa de Imágenes */}
+            <div className="form-group">
+              <label className="form-label">Galería en Vitrina (Solo Lectura)</label>
+              <div className="edit-gallery-preview">
+                {joya.imagesUrls && joya.imagesUrls.map((url, i) => (
+                  <div key={i} className="edit-img-wrapper">
+                    <img src={url} alt={`Ángulo ${i+1}`} />
+                    <span className="edit-img-badge">VISTA {i+1}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="form-hint" style={{ marginTop: '15px' }}>
+                Para actualizar las fotografías, es necesario crear un nuevo registro de la pieza.
+              </p>
+            </div>
 
-          {/* Descripción */}
-          <div>
-            <label className="block text-[10px] uppercase tracking-widest text-gray-400 mb-3">Descripción para el cliente</label>
-            <textarea 
-              name="descripcion" value={joya.descripcion} rows="4" required
-              className="w-full border border-gray-100 p-4 focus:outline-none focus:border-gray-200 text-sm leading-relaxed"
-              onChange={handleChange}
-            ></textarea>
-          </div>
+            {/* Categoría y Precio (Grid) */}
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="form-label">Colección / Categoría</label>
+                <select name="categoria" value={joya.categoria} onChange={handleChange} className="form-select">
+                  <option value="Anillos">Anillos</option>
+                  <option value="Cadenas">Cadenas</option>
+                  <option value="Aretes">Aretes</option>
+                  <option value="Relojes">Relojes</option>
+                  <option value="Pulseras">Pulseras</option>
+                </select>
+              </div>
+              
+              <div className="form-group">
+                <label className="form-label">Precio de Referencia ($)</label>
+                <input 
+                  type="number" name="precio" value={joya.precio} step="0.01" required onChange={handleChange}
+                  className="form-input" 
+                />
+              </div>
+            </div>
 
-          <div className="flex justify-between items-center pt-10">
-            <button 
-              type="button" 
-              onClick={() => navigate('/admin/dashboard')}
-              className="text-gray-400 text-[10px] uppercase tracking-widest hover:text-gray-800 transition-colors"
-            >
-              Cancelar
-            </button>
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="bg-gray-900 text-white px-12 py-4 text-[10px] uppercase tracking-widest hover:bg-black transition-all disabled:bg-gray-200 shadow-sm"
-            >
-              {loading ? 'Sincronizando...' : 'Actualizar Pieza'}
-            </button>
-          </div>
-        </form>
-      </div>
+            {/* Material */}
+            <div className="form-group">
+              <label className="form-label">Materiales y Gemas</label>
+              <input 
+                type="text" name="material" value={joya.material} required onChange={handleChange}
+                className="form-input" 
+              />
+            </div>
+
+            {/* Descripción */}
+            <div className="form-group">
+              <label className="form-label">Descripción para el Cliente</label>
+              <textarea 
+                name="descripcion" value={joya.descripcion} rows="5" required onChange={handleChange}
+                className="form-textarea" 
+              ></textarea>
+            </div>
+
+            {/* Botones de Acción */}
+            <div className="form-actions">
+              <button type="button" onClick={() => navigate('/admin/dashboard')} className="btn-cancel">Cancelar Edición</button>
+              <button type="submit" disabled={loading} className="btn-submit">
+                {loading ? 'Sincronizando...' : 'Actualizar Pieza'}
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </main>
     </div>
   );
 };

@@ -1,12 +1,14 @@
+// src/pages/admin/AgregarJoya.jsx
 import { useState } from 'react';
 import { db } from '../../config/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import './AgreJoya.css'; // Asegúrate de apuntar a tu archivo CSS principal
 
 export const AgregarJoya = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [imagenes, setImagenes] = useState([]); // Ahora es un array
+  const [imagenes, setImagenes] = useState([]); 
   
   const [joya, setJoya] = useState({
     nombre: '',
@@ -24,7 +26,6 @@ export const AgregarJoya = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files) {
-      // Convertimos el FileList en un Array real
       setImagenes(Array.from(e.target.files));
     }
   };
@@ -54,18 +55,17 @@ export const AgregarJoya = () => {
         return data.secure_url;
       });
 
-      // Esperamos a que todas las fotos se suban
       const urlsObtenidas = await Promise.all(uploadPromises);
 
-      // 2. GUARDAR EN FIRESTORE (Guardamos el array de imágenes)
+      // 2. GUARDAR EN FIRESTORE
       await addDoc(collection(db, "joyas"), {
         ...joya,
         precio: parseFloat(joya.precio),
-        imagesUrls: urlsObtenidas, // Guardamos la lista completa
+        imagesUrls: urlsObtenidas, 
         fechaCreacion: new Date()
       });
       
-      alert(`¡Éxito! Se han subido ${urlsObtenidas.length} imágenes.`);
+      alert(`¡Éxito! Se han subido ${urlsObtenidas.length} imágenes y la pieza se agregó al catálogo.`);
       navigate('/admin/dashboard');
     } catch (error) {
       console.error("Error:", error);
@@ -76,76 +76,93 @@ export const AgregarJoya = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-8">
-      <div className="max-w-2xl mx-auto border border-gray-100 p-8 shadow-sm">
-        <h2 className="text-2xl font-light text-gray-800 mb-8 border-b pb-4 tracking-widest uppercase">Nueva Pieza</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Nombre</label>
-            <input type="text" name="nombre" required onChange={handleChange}
-              className="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-gray-800"
-            />
-          </div>
+    <div className="dashboard-wrapper">
+      
+      {/* NAVBAR ADMIN (Para mantener la consistencia) */}
+      <nav className="admin-nav">
+        <div className="admin-brand">
+          <h1 className="admin-logo">Perla Negra</h1>
+          <p className="admin-subtitle">Nueva Incorporación</p>
+        </div>
+        <div className="admin-actions">
+          <button onClick={() => navigate('/admin/dashboard')} className="btn-store">Volver a Bóveda</button>
+        </div>
+      </nav>
 
-          <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Fotografías (Puedes elegir varias)</label>
-            <input 
-              type="file" 
-              accept="image/*"
-              multiple // <--- ESTO PERMITE ELEGIR VARIAS
-              required
-              onChange={handleImageChange}
-              className="w-full border-b border-gray-200 py-2 text-sm file:bg-gray-800 file:text-white file:border-0 file:px-4 file:py-1 file:mr-4 cursor-pointer"
-            />
-            <p className="text-[10px] text-gray-400 mt-1 italic">
-              {imagenes.length > 0 ? `${imagenes.length} seleccionadas` : "Selecciona una o más fotos de diferentes ángulos"}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Categoría</label>
-              <select name="categoria" onChange={handleChange} className="w-full border-b border-gray-200 py-2 bg-transparent">
-                <option value="Anillos">Anillos</option>
-                <option value="Cadenas">Cadenas</option>
-                <option value="Aretes">Aretes</option>
-                <option value="Relojes">Relojes</option>
-                <option value="Pulseras">Pulseras</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Precio ($)</label>
-              <input type="number" name="precio" step="0.01" required onChange={handleChange}
-                className="w-full border-b border-gray-200 py-2 focus:outline-none"
+      <main className="admin-main">
+        <div className="admin-form-container fade-in-image">
+          <h2 className="admin-form-title">Registrar Nueva Pieza</h2>
+          
+          <form onSubmit={handleSubmit} className="admin-form">
+            
+            <div className="form-group">
+              <label className="form-label">Nombre de la Pieza</label>
+              <input 
+                type="text" name="nombre" required onChange={handleChange}
+                className="form-input" placeholder="Ej. Anillo Solitario Diamante"
               />
             </div>
-          </div>
 
-          <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Material</label>
-            <input type="text" name="material" required onChange={handleChange}
-              className="w-full border-b border-gray-200 py-2 focus:outline-none"
-            />
-          </div>
+            <div className="form-group">
+              <label className="form-label">Fotografías de Estudio (Selección Múltiple)</label>
+              <input 
+                type="file" accept="image/*" multiple required onChange={handleImageChange}
+                className="form-file"
+              />
+              <p className="form-hint">
+                {imagenes.length > 0 
+                  ? `Has seleccionado ${imagenes.length} archivo(s)` 
+                  : "Selecciona una o más fotos para la galería."}
+              </p>
+            </div>
 
-          <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Descripción</label>
-            <textarea name="descripcion" rows="3" required onChange={handleChange}
-              className="w-full border border-gray-100 p-3 focus:outline-none"
-            ></textarea>
-          </div>
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="form-label">Categoría</label>
+                <select name="categoria" onChange={handleChange} className="form-select">
+                  <option value="Anillos">Anillos</option>
+                  <option value="Cadenas">Cadenas</option>
+                  <option value="Aretes">Aretes</option>
+                  <option value="Relojes">Relojes</option>
+                  <option value="Pulseras">Pulseras</option>
+                </select>
+              </div>
+              
+              <div className="form-group">
+                <label className="form-label">Valor / Precio ($)</label>
+                <input 
+                  type="number" name="precio" step="0.01" required onChange={handleChange}
+                  className="form-input" placeholder="0.00"
+                />
+              </div>
+            </div>
 
-          <div className="flex justify-between items-center pt-6">
-            <button type="button" onClick={() => navigate('/admin/dashboard')} className="text-gray-400">Cancelar</button>
-            <button type="submit" disabled={loading}
-              className="bg-gray-800 text-white px-10 py-3 hover:bg-black transition-colors disabled:bg-gray-300"
-            >
-              {loading ? 'Subiendo contenido...' : 'Publicar Pieza'}
-            </button>
-          </div>
-        </form>
-      </div>
+            <div className="form-group">
+              <label className="form-label">Materiales y Gemas</label>
+              <input 
+                type="text" name="material" required onChange={handleChange}
+                className="form-input" placeholder="Ej. Oro Blanco 18k, Zafiro"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Descripción Detallada</label>
+              <textarea 
+                name="descripcion" rows="4" required onChange={handleChange}
+                className="form-textarea" placeholder="Describe la inspiración, el peso, el corte..."
+              ></textarea>
+            </div>
+
+            <div className="form-actions">
+              <button type="button" onClick={() => navigate('/admin/dashboard')} className="btn-cancel">Cancelar</button>
+              <button type="submit" disabled={loading} className="btn-submit">
+                {loading ? 'Procesando Archivos...' : 'Ingresar a Catálogo'}
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </main>
     </div>
   );
 };

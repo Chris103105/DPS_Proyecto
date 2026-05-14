@@ -1,0 +1,663 @@
+/* =========================================
+   CONFIGURACIÓN GLOBAL - TONOS JOYERÍA OSCURA
+   ========================================= */
+:root {
+    --bg-base: #161618;
+    --bg-surface: #222224;
+    --text-main: #f0ece1;
+    --text-muted: #9ca3af;
+    --accent-gold: #cfa052;
+    --border-color: #333336;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Playfair Display', serif;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 60px;
+    background: linear-gradient(to bottom, rgba(22, 22, 24, 0.95), transparent);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-logo { font-size: 1.4rem; letter-spacing: 0.6em; color: var(--text-main); text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin: 0;}
+.admin-access { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
+.admin-access:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+/* CARRUSEL */
+.hero-carousel { position: relative; width: 100%; height: 85vh; overflow: hidden; background: #0a0a0a; }
+.slide-item { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease; display: flex; align-items: center; justify-content: center; }
+.slide-item.active { opacity: 1; }
+.slide-item::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+.slide-content { position: relative; z-index: 10; color: var(--text-main); text-align: center; padding: 0 20px; }
+.hero-subtitle { font-size: 11px; letter-spacing: 0.6em; text-transform: uppercase; margin-bottom: 20px; display: block; color: var(--text-muted); }
+.hero-title { font-size: 3.5rem; font-weight: 200; letter-spacing: 0.3em; margin: 0; }
+.hero-divider { width: 40px; height: 1px; background: var(--accent-gold); margin: 30px auto; }
+
+.carousel-dots { position: absolute; bottom: 40px; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 20; }
+.dot-btn { width: 30px; height: 2px; background: rgba(255,255,255,0.2); border: none; cursor: pointer; transition: 0.4s; }
+.dot-btn.active { background: var(--accent-gold); width: 50px; }
+
+/* FILTROS */
+.filter-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; padding: 40px 20px; border-bottom: 1px solid var(--border-color); background: var(--bg-base); }
+.filter-link { background: none; border: none; color: var(--text-muted); font-size: 10px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; transition: 0.3s; padding-bottom: 5px; border-bottom: 1px solid transparent; }
+.filter-link.active, .filter-link:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+/* CATALOGO */
+.catalog-container { padding: 80px 60px; max-width: 1400px; margin: 0 auto; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 50px 30px; }
+.jewelry-card { cursor: pointer; transition: 0.3s; }
+.card-image { aspect-ratio: 3/4; overflow: hidden; position: relative; background: #0a0a0a; border: 1px solid var(--border-color); }
+.card-image img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+.jewelry-card:hover .card-image img { transform: scale(1.05); filter: brightness(1); }
+.card-overlay { position: absolute; inset: 0; background: rgba(22, 22, 24, 0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.4s; }
+.card-overlay span { background: var(--bg-base); color: var(--accent-gold); padding: 12px 20px; font-size: 9px; letter-spacing: 2px; border: 1px solid var(--accent-gold); }
+.jewelry-card:hover .card-overlay { opacity: 1; }
+.card-info { text-align: center; margin-top: 20px; }
+.card-info h3 { font-size: 14px; font-weight: 400; letter-spacing: 2px; color: var(--text-main); margin: 0; }
+.material-tag { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin: 8px 0; }
+.price-tag { font-size: 15px; font-weight: 500; color: var(--accent-gold); }
+
+/* TESTIMONIOS */
+.testimonials-section { background: var(--bg-surface); padding: 100px 60px; border-top: 1px solid var(--border-color); }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-header h2 { font-size: 1.8rem; letter-spacing: 0.3em; font-weight: 300; margin: 0 0 10px 0; }
+.section-header p { font-size: 10px; color: var(--text-muted); letter-spacing: 4px; margin: 0; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;}
+.testimonial-item { text-align: center; padding: 20px; }
+.quote-icon { font-size: 40px; color: rgba(207, 160, 82, 0.2); margin-bottom: 15px; }
+.quote-text { font-style: italic; color: #b3b3b3; line-height: 1.8; margin: 0; }
+.quote-author { font-size: 10px; letter-spacing: 2px; margin-top: 20px; color: var(--text-main); font-weight: bold; }
+
+/* FORMULARIO */
+.review-form-container { max-width: 550px; margin: 80px auto 0; background: var(--bg-base); padding: 50px; border: 1px solid var(--border-color); }
+.review-form h3 { text-align: center; font-size: 10px; letter-spacing: 3px; color: var(--text-muted); margin-bottom: 40px; }
+.review-form input, .review-form textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border-color); color: var(--text-main); padding: 15px 0; margin-bottom: 30px; font-size: 12px; outline: none; transition: 0.3s; box-sizing: border-box; }
+.review-form input:focus, .review-form textarea:focus { border-bottom-color: var(--accent-gold); }
+.review-form button { width: 100%; padding: 18px; background: var(--accent-gold); color: #111; border: none; font-size: 10px; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.review-form button:hover { background: #dfba6b; }
+
+/* FOOTER */
+.main-footer { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border-color); background: var(--bg-base); }
+.main-footer h2 { font-weight: 200; letter-spacing: 0.6em; font-size: 1.2rem; margin: 0;}
+.main-footer p { font-size: 9px; color: var(--text-muted); letter-spacing: 4px; margin-top: 20px; }
+
+/* MODAL STYLES */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+.modal-window { background: var(--bg-surface); width: 100%; max-width: 1000px; max-height: 90vh; position: relative; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); border: 1px solid var(--border-color); animation: slideUp 0.4s ease-out; }
+.modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 30px; cursor: pointer; z-index: 20; color: var(--text-muted); transition: 0.3s; }
+.modal-close:hover { color: var(--accent-gold); transform: rotate(90deg); }
+
+.modal-grid { display: grid; grid-template-columns: 1.2fr 1fr; }
+.modal-image-side { background: #000; }
+.modal-image-side img { width: 100%; height: 100%; min-height: 300px; object-fit: cover; opacity: 0.9; }
+.modal-info-side { padding: 50px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+
+.modal-cat { font-size: 10px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 15px; }
+.modal-title { font-size: 2.2rem; font-weight: 300; margin: 0; letter-spacing: 2px; color: var(--text-main); line-height: 1.2;}
+.modal-divider { width: 30px; height: 1px; background: var(--accent-gold); margin: 25px 0; }
+.modal-desc { font-size: 14px; line-height: 1.8; color: #b3b3b3; margin-bottom: 30px; font-family: sans-serif; }
+.modal-meta { margin-bottom: 30px; }
+.modal-material { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin: 0 0 10px 0; }
+.modal-material span { color: var(--text-main); font-weight: bold; }
+.modal-price { font-size: 24px; color: var(--accent-gold); font-weight: 500; margin: 0; }
+
+.modal-btn-primary { background: var(--accent-gold); color: #111; border: none; padding: 20px; font-size: 10px; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
+.modal-btn-primary:hover { background: #dfba6b; }
+.modal-btn-back { background: none; border: none; color: var(--text-muted); font-size: 9px; letter-spacing: 2px; margin-top: 20px; cursor: pointer; width: 100%; transition: 0.3s; }
+.modal-btn-back:hover { color: var(--text-main); }
+
+.modal-form { display: flex; flex-direction: column; width: 100%; }
+.modal-input { width: 100%; border: 1px solid var(--border-color); background: var(--bg-base); color: var(--text-main); padding: 15px; margin-bottom: 15px; font-size: 12px; outline: none; transition: 0.3s; box-sizing: border-box;}
+.modal-input:focus { border-color: var(--accent-gold); }
+
+.captcha-container { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px 0; }
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================
+   DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Navbar móvil */
+    .main-nav {
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+    }
+    .nav-logo { font-size: 1.1rem; }
+
+    /* Hero móvil */
+    .hero-carousel { height: 70vh; }
+    .hero-title { font-size: 2rem; letter-spacing: 0.1em; }
+    .hero-subtitle { font-size: 9px; letter-spacing: 0.4em; }
+
+    /* Filtros móvil */
+    .filter-bar {
+        gap: 15px;
+        padding: 20px 10px;
+    }
+    .filter-link { font-size: 9px; letter-spacing: 2px; }
+
+    /* Catálogo móvil */
+    .catalog-container { padding: 40px 20px; }
+    .catalog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Permite 2 tarjetas por fila */
+        gap: 25px 15px;
+    }
+    .card-overlay span { padding: 8px 12px; font-size: 8px; }
+
+    /* Testimonios y Formulario móvil */
+    .testimonials-section { padding: 60px 20px; }
+    .section-header h2 { font-size: 1.4rem; }
+    .review-form-container { padding: 30px 20px; margin-top: 40px; }
+    
+    /* Modal móvil */
+    .modal-overlay { padding: 10px; }
+    .modal-grid { grid-template-columns: 1fr; }
+    .modal-image-side img { min-height: 250px; max-height: 300px; }
+    .modal-info-side { padding: 25px 20px; }
+    .modal-title { font-size: 1.5rem; }
+    
+    /* Footer móvil */
+    .main-footer { padding: 50px 20px; }
+}
+
+
+/* =========================================
+   SECCIÓN: MISIÓN Y VISIÓN
+   ========================================= */
+.about-section {
+    padding: 120px 60px;
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 80px;
+    text-align: center;
+}
+
+.about-block {
+    flex: 1;
+    padding: 20px;
+}
+
+.about-subtitle {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.about-title {
+    font-size: 2.8rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--text-main);
+    margin: 0 0 25px 0;
+}
+
+.about-text {
+    font-size: 15px;
+    line-height: 2;
+    color: #b3b3b3;
+    font-family: sans-serif;
+    font-weight: 300;
+}
+
+.about-divider {
+    width: 1px;
+    height: 200px;
+    background-color: var(--accent-gold);
+    opacity: 0.3;
+}
+
+/* =========================================
+   SECCIÓN: COLLAGE FOTOGRÁFICO
+   ========================================= */
+.collage-section {
+    padding: 0;
+    background-color: var(--bg-base);
+}
+
+.collage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 50vh; /* Altura del collage */
+    width: 100%;
+}
+
+.collage-item {
+    overflow: hidden;
+    position: relative;
+}
+
+.collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.6) brightness(0.8);
+    transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collage-item:hover img {
+    filter: grayscale(0) brightness(1.1);
+    transform: scale(1.08);
+}
+
+
+/* =========================================
+   ESTILOS DE LA GALERÍA DEL MODAL
+   ========================================= */
+.main-image-container {
+    width: 100%;
+    height: 450px; /* Altura fija para la imagen principal */
+    background: #000;
+}
+
+.main-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.95;
+    transition: 0.3s;
+}
+
+.thumbnail-gallery {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: var(--bg-surface);
+    overflow-x: auto;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail:hover {
+    opacity: 0.8;
+}
+
+.thumbnail.active {
+    opacity: 1;
+    border-color: var(--accent-gold);
+}
+
+/* =========================================
+   ESTILOS DE RECOMENDACIONES (CROSS-SELLING)
+   ========================================= */
+.recommendations-section {
+    padding: 40px 60px 60px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-base);
+}
+
+.rec-title {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.rec-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.rec-card {
+    width: 200px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.rec-card:hover {
+    transform: translateY(-5px);
+}
+
+.rec-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.rec-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+    filter: brightness(0.8);
+}
+
+.rec-card:hover .rec-img-wrapper img {
+    filter: brightness(1);
+    transform: scale(1.1);
+}
+
+.rec-info h4 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-main);
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.rec-info p {
+    font-size: 12px;
+    color: var(--accent-gold);
+    margin: 0;
+}
+
+/* Ajustes Móviles */
+@media (max-width: 768px) {
+    .main-image-container { height: 350px; }
+    .thumbnail { width: 60px; height: 60px; }
+    .recommendations-section { padding: 30px 20px; }
+    .rec-card { width: 140px; }
+}
+
+
+/* =========================================
+   ESTILOS DE LA GALERÍA DEL MODAL (ESTILO LUXE)
+   ========================================= */
+.modal-image-side {
+    display: flex;
+    gap: 20px;
+    background: #050505; /* Un negro súper profundo para contrastar la joya */
+    padding: 30px;
+}
+
+.thumbnail-gallery-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 80px;
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: none; /* Oculta la barra de scroll en Firefox */
+}
+
+.thumbnail-gallery-vertical::-webkit-scrollbar {
+    display: none; /* Oculta la barra de scroll en Chrome/Safari */
+}
+
+.thumbnail-v {
+    width: 100%;
+    height: 100px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    opacity: 0.4;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.thumbnail-v img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-v:hover {
+    opacity: 0.8;
+}
+
+.thumbnail-v.active {
+    opacity: 1;
+    border-color: var(--accent-gold);
+    transform: scale(1.02);
+}
+
+.main-image-container {
+    flex: 1;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Contain asegura que no se corte ningún detalle de la joya */
+}
+
+/* Animación sutil al cambiar de foto */
+.fade-in-image {
+    animation: imageFade 0.6s ease-in-out forwards;
+}
+
+@keyframes imageFade {
+    0% { opacity: 0.3; filter: blur(2px); transform: scale(0.98); }
+    100% { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+/* Ajustes Móviles para la Galería */
+@media (max-width: 768px) {
+    .modal-image-side {
+        flex-direction: column-reverse; /* Pone las miniaturas abajo en móviles */
+        padding: 0;
+    }
+    .thumbnail-gallery-vertical {
+        flex-direction: row;
+        width: 100%;
+        max-height: auto;
+        padding: 15px;
+        background: #0a0a0a;
+    }
+    .thumbnail-v {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+    }
+    .main-image-container { height: 350px; }
+}
+
+
+
+
+
+/* =========================================
+   DASHBOARD DE ADMINISTRACIÓN (DISEÑO JOYERÍA)
+   ========================================= */
+
+.dashboard-wrapper {
+    min-height: 100vh;
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Playfair Display', serif;
+}
+
+/* --- NAVBAR DEL DASHBOARD --- */
+.admin-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.admin-brand { display: flex; flex-direction: column; }
+.admin-logo { font-size: 1.2rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-main); margin: 0; }
+.admin-subtitle { font-size: 9px; color: var(--accent-gold); letter-spacing: 2px; text-transform: uppercase; margin: 5px 0 0 0; }
+
+.admin-actions { display: flex; gap: 20px; align-items: center; }
+.btn-store { background: none; border: none; color: var(--text-muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.btn-store:hover { color: var(--text-main); }
+
+.btn-new {
+    background-color: var(--accent-gold);
+    color: #111;
+    border: none;
+    padding: 10px 20px;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-new:hover { background-color: #dfba6b; }
+
+/* --- ÁREA PRINCIPAL --- */
+.admin-main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+/* --- PESTAÑAS (TABS) --- */
+.admin-tabs { display: flex; gap: 30px; border-bottom: 1px solid var(--border-color); margin-bottom: 40px; }
+.tab-btn {
+    background: none;
+    border: none;
+    padding-bottom: 15px;
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.tab-btn.active, .tab-btn:hover { color: var(--text-main); border-bottom-color: var(--accent-gold); }
+.badge-new { background-color: var(--accent-gold); color: #111; font-size: 8px; font-weight: bold; padding: 3px 6px; letter-spacing: 1px; }
+
+/* --- ESTADOS GENÉRICOS --- */
+.admin-loader { text-align: center; padding: 100px 0; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); animation: pulse 2s infinite; }
+.admin-empty { text-align: center; padding: 100px 0; border: 1px dashed var(--border-color); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); }
+
+/* --- TABLA DE INVENTARIO --- */
+.table-responsive { overflow-x: auto; background: var(--bg-surface); padding: 20px; border: 1px solid var(--border-color); }
+.inventory-table { width: 100%; border-collapse: collapse; text-align: left; }
+.inventory-table th { padding: 15px 10px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); font-family: sans-serif; border-bottom: 1px solid var(--border-color); font-weight: normal; }
+.inventory-table td { padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.02); vertical-align: middle; }
+.inventory-table tr:last-child td { border-bottom: none; }
+.inventory-table tr:hover td { background-color: rgba(255,255,255,0.03); }
+
+.td-piece { display: flex; align-items: center; gap: 15px; }
+.td-img { width: 50px; height: 50px; background: #000; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.td-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.3s; }
+.inventory-table tr:hover .td-img img { filter: grayscale(0); }
+.td-img span { font-size: 8px; color: var(--text-muted); text-transform: uppercase; }
+
+.td-name { font-size: 13px; font-weight: bold; color: var(--text-main); margin: 0 0 4px 0; letter-spacing: 1px;}
+.td-material { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin: 0; letter-spacing: 1px; }
+
+.badge-cat { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-gold); border: 1px solid rgba(207, 160, 82, 0.3); padding: 3px 8px; background: rgba(207, 160, 82, 0.05); }
+.td-price { font-size: 14px; color: var(--text-main); font-family: sans-serif; }
+
+.btn-visibility { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 5px 12px; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.btn-visibility.active { background: rgba(207, 160, 82, 0.1); border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.td-actions { display: flex; justify-content: flex-end; gap: 15px; }
+.btn-edit { background: none; border: none; color: var(--text-muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.btn-edit:hover { color: var(--text-main); }
+.btn-delete { background: none; border: none; color: #7f1d1d; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.btn-delete:hover { color: #ef4444; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* --- GRID DE TESTIMONIOS Y SOLICITUDES --- */
+.admin-testim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.admin-testim-card { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 25px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+
+.badge-pending { position: absolute; top: -10px; right: -10px; background: var(--accent-gold); color: #111; font-size: 8px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+
+/* Detalles Testimonios */
+.admin-quote-icon { font-size: 30px; color: rgba(207, 160, 82, 0.3); font-family: 'Playfair Display', serif; margin-bottom: 10px; line-height: 1; }
+.admin-testim-text { font-size: 13px; font-style: italic; color: #b3b3b3; line-height: 1.6; margin: 0 0 15px 0; font-family: sans-serif;}
+.admin-testim-author { font-size: 11px; font-weight: bold; color: var(--text-main); margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px;}
+.admin-testim-date { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin: 0; letter-spacing: 1px;}
+
+/* Detalles Solicitudes de Pedido */
+.req-piece-name { font-size: 16px; color: var(--text-main); margin: 10px 0 5px 0; letter-spacing: 2px; text-transform: uppercase; }
+.req-price { font-size: 14px; color: var(--accent-gold); margin: 0 0 15px 0; font-family: sans-serif; }
+.req-client-info { font-family: sans-serif; font-size: 12px; color: #b3b3b3; line-height: 1.8; margin-bottom: 15px; border-left: 2px solid var(--border-color); padding-left: 10px; }
+.req-client-info strong { color: var(--text-main); font-weight: 500; }
+.req-message { font-family: sans-serif; font-size: 12px; font-style: italic; color: #888; background: rgba(0,0,0,0.2); padding: 10px; border: 1px solid var(--border-color); }
+
+/* Botones Inferiores */
+.admin-testim-actions { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+
+.btn-approve { background: var(--accent-gold); color: #111; border: none; padding: 8px 15px; font-size: 9px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.btn-approve.approved { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); font-weight: normal; }
+.btn-approve:hover { background: #dfba6b; color: #111; border-color: #dfba6b;}
+
+/* --- FOOTER DEL DASHBOARD --- */
+.admin-footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+.admin-security-tags { display: flex; gap: 20px; color: var(--accent-gold); opacity: 0.7; }
+
+/* --- RESPONSIVO --- */
+@media (max-width: 768px) {
+    .admin-nav { flex-direction: column; gap: 15px; padding: 20px; text-align: center; }
+    .admin-tabs { gap: 15px; overflow-x: auto; white-space: nowrap; padding-bottom: 5px; }
+    .table-responsive { border: none; padding: 0; background: transparent; }
+    .td-actions { flex-direction: column; gap: 10px; }
+    .admin-footer { flex-direction: column; gap: 15px; text-align: center; }
+}
+
+
+/* Botón de Cerrar Sesión */
+.btn-logout {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 20px;
+    border-left: 1px solid var(--border-color);
+    padding-left: 20px;
+}
+
+.btn-logout:hover {
+    color: #ff4655; /* Rojo de alerta elegante */
+}

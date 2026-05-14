@@ -1,0 +1,44 @@
+/* =========================================
+   VISTA PREVIA DE IMÁGENES (PANTALLA EDITAR)
+   ========================================= */
+
+.edit-gallery-preview {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.edit-img-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    border: 1px solid var(--border-color);
+    background-color: #000;
+}
+
+.edit-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Eliminamos el filter: grayscale(1) */
+    transition: 0.3s;
+}
+
+/* Y puedes borrar o cambiar el hover para que haga un ligero zoom en lugar de dar color */
+.edit-img-wrapper:hover img {
+    transform: scale(1.05); /* Le damos un efecto de zoom elegante al pasar el ratón */
+}
+
+.edit-img-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(22, 22, 24, 0.8);
+    color: var(--text-main);
+    font-size: 8px;
+    padding: 2px 5px;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255,255,255,0.1);
+}

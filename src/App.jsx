@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Login } from './pages/admin/Login';
-// IMPORTANTE: Asegúrate de importar los nuevos componentes
 import { Dashboard } from './pages/admin/Dashboard'; 
 import { AgregarJoya } from './pages/admin/AgregarJoya'; 
 import { Home } from './pages/public/Home';
@@ -9,42 +8,44 @@ import { EditarJoya } from './pages/admin/EditarJoya';
 import { Notificaciones } from './pages/admin/Notificaciones';
 import { TestimoniosAdmin } from './pages/admin/TestimoniosAdmin';
 
-// --- COMPONENTES TEMPORALES PARA PRUEBAS ---
-// Simula la pantalla de inicio (Catálogo público)
-const HomeTemporal = () => (
-  <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-    <h1 className="text-3xl font-light text-gray-800 mb-4">Joyería Perla Negra</h1>
-    <p className="text-gray-500 mb-8">Catálogo en construcción...</p>
-    <a href="/admin/login" className="text-sm bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition-colors">
-      Ir al panel de Don Ruano
-    </a>
-  </div>
-);
-
-// --- GUARDIA DIGITAL ---
-// Este componente envuelve las rutas privadas. Si no hay usuario, lo patea al login.
+// ==========================================
+// EL GUARDIA DE SEGURIDAD (PROTECTED ROUTE)
+// ==========================================
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   
-  if (loading) return <div className="min-h-screen bg-gray-50 flex items-center justify-center text-gray-500">Verificando credenciales...</div>;
-  if (!user) return <Navigate to="/admin/login" />;
+  // Pantalla de carga oscura para no romper el diseño de lujo
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#0b0c10', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: '#888', fontSize: '11px', letterSpacing: '4px', textTransform: 'uppercase', animation: 'pulse 2s infinite' }}>
+          Verificando credenciales...
+        </p>
+      </div>
+    );
+  }
+
+  // Si no hay usuario autorizado, lo regresa a la pantalla de Login
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
   
   return children;
 };
 
-// --- APP PRINCIPAL ---
+// ==========================================
+// RUTAS DE LA APLICACIÓN
+// ==========================================
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-        {/* Rutas Públicas */}
-<Route path="/" element={<Home />} />
-          
-          {/* Rutas del Administrador */}
+          {/* --- RUTAS PÚBLICAS --- */}
+          <Route path="/" element={<Home />} />
           <Route path="/admin/login" element={<Login />} />
           
-          {/* Cada ruta privada se envuelve individualmente con el ProtectedRoute */}
+          {/* --- RUTAS PRIVADAS --- */}
           <Route 
             path="/admin/dashboard" 
             element={
@@ -53,9 +54,34 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          <Route path="/admin/testimonios" element={<TestimoniosAdmin />} />
-          <Route path="/admin/notificaciones" element={<Notificaciones />} />
-          <Route path="/admin/editar/:id" element={<EditarJoya />} />
+          
+          <Route 
+            path="/admin/testimonios" 
+            element={
+              <ProtectedRoute>
+                <TestimoniosAdmin />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/admin/notificaciones" 
+            element={
+              <ProtectedRoute>
+                <Notificaciones />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/admin/editar/:id" 
+            element={
+              <ProtectedRoute>
+                <EditarJoya />
+              </ProtectedRoute>
+            } 
+          />
+          
           <Route 
             path="/admin/agregar" 
             element={
